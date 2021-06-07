@@ -1,0 +1,64 @@
+version: "3.3"
+services:
+
+  nginx:
+    depends_on:
+      - mariadb
+      - wordpress
+    build: ./nginx
+    image: nginx
+    volumes: 
+     - wp-data:/var/www/wordpress/
+    ports:
+      - "443:443"
+    networks:
+      - backend
+    env_file:
+      - .env
+    restart: always
+
+  mariadb:
+    build: ./mariadb
+    image: mariadb
+    volumes: 
+     - db-data:/var/lib/mysql/
+    ports:
+      - "3306"
+    networks:
+      - backend
+    env_file:
+      - .env
+    restart: always
+
+  wordpress:
+    depends_on:
+      - mariadb
+    build: ./wordpress
+    image: wordpress
+    volumes: 
+     - wp-data:/var/www/wordpress/
+    ports:
+      - "9000"
+    networks:
+      - backend
+    env_file:
+      - .env
+    restart: always
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: /home/hrajad/data/db
+  wp-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: 'none'
+      device: /home/hrajad/data/wp
