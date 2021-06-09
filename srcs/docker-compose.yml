@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3"
 services:
 
   nginx:
@@ -7,8 +7,8 @@ services:
       - wordpress
     build: ./nginx
     image: nginx
-    volumes: 
-     - wp-data:/var/www/wordpress/
+    volumes:
+      - wp-data:/var/www/wordpress/
     ports:
       - "443:443"
     networks:
@@ -20,8 +20,8 @@ services:
   mariadb:
     build: ./mariadb
     image: mariadb
-    volumes: 
-     - db-data:/var/lib/mysql/
+    volumes:
+      - db-data:/var/lib/mysql
     ports:
       - "3306"
     networks:
@@ -35,8 +35,8 @@ services:
       - mariadb
     build: ./wordpress
     image: wordpress
-    volumes: 
-     - wp-data:/var/www/wordpress/
+    volumes:
+      - wp-data:/var/www/wordpress/
     ports:
       - "9000"
     networks:
@@ -49,16 +49,17 @@ networks:
   backend:
     driver: bridge
 
+    
 volumes:
   db-data:
     driver: local
     driver_opts:
-      o: 'bind'
-      type: 'none'
-      device: /home/hrajad/data/db
+      type: none
+      device: "/home/hrajad/data/db-data"
+      o: bind
   wp-data:
     driver: local
     driver_opts:
+      type: none
+      device: "/home/hrajad/data/wp-data"
       o: bind
-      type: 'none'
-      device: /home/hrajad/data/wp

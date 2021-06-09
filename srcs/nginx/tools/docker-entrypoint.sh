@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# 인증서가 없다면 생성
 if [ ! -e /etc/ssl/certs/${DOMAIN_NAME}.crt ] ||
 		[ ! -e /etc/ssl/private/${DOMAIN_NAME}.key ]; then
 	echo "** creating certs file"

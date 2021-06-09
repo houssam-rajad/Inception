@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# init
+# init 파일 생성
 if [ ! -e /tmp/init ]; then
 	touch /tmp/init
 	if [ ! -n "${MYSQL_ROOT_PASSWORD}" ]; then
@@ -21,5 +21,5 @@ if [ ! -e /tmp/init ]; then
 	fi
 	echo "FLUSH PRIVILEGES;" >> /tmp/init
 fi
-
+su hrajad
 exec "$@"
